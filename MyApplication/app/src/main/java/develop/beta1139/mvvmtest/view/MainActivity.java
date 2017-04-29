@@ -29,8 +29,11 @@ public class MainActivity extends AppCompatActivity {
 
         EventBus.getDefault().register(this);
 
-        Observable<String> observable = Observable.just("aaa", "bbb");
-        List<String> list = observable.toList().blockingGet();
+        List<String> list = Observable.just("aaa", "bbb", "ccc", "bbb")
+                .filter(data -> data.equals("bbb"))
+                .take(1)
+                .toList()
+                .blockingGet();
         for (String str : list) {
             Log.e("dbg", "str: " + str);
         }
