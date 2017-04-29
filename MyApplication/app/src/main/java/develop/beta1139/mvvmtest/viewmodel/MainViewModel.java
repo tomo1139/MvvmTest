@@ -4,7 +4,7 @@ import android.databinding.ObservableField;
 import android.util.Log;
 import android.view.View;
 
-import develop.beta1139.mvvmtest.api.Api;
+import develop.beta1139.mvvmtest.api.EmailApi;
 import develop.beta1139.mvvmtest.model.MainModel;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -17,14 +17,15 @@ import io.reactivex.schedulers.Schedulers;
 public class MainViewModel {
 
     public ObservableField<String> name = new ObservableField<>("xxx");
+    public ObservableField<String> imageUrl = new ObservableField<>("");
 
     private MainModel mMainModel = new MainModel();
 
     public MainViewModel() {
     }
 
-    public void onClickButton(View view) {
-        Observable<Api.ApiData> observable = mMainModel.mApi.apiData();
+    public void onClickEmailButton(View view) {
+        Observable<EmailApi.ApiData> observable = mMainModel.mEmailApi.apiData();
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -36,5 +37,9 @@ public class MainViewModel {
                         throwable -> {
                             Log.e("dbg", "throwable: " + throwable);
                         });
+    }
+
+    public void onClickImageButton(View view) {
+        imageUrl.set("https://source.unsplash.com/random");
     }
 }

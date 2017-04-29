@@ -22,10 +22,21 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
         <Button
-            android:text="button"
-            android:onClick="@{mainViewModel.onClickButton}"
+            android:text="update email"
+            android:onClick="@{mainViewModel.onClickEmailButton}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+        <Button
+            android:text="update image"
+            android:onClick="@{mainViewModel.onClickImageButton}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            app:imageUrl="@{mainViewModel.imageUrl}"
+            android:background="#ff0000"
+            android:layout_width="200dp"
+            android:layout_height="200dp" />
     </LinearLayout>
 </layout>
 

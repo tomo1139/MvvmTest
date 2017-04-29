@@ -9,7 +9,7 @@ import retrofit2.http.GET;
  * Created by tomo on 2017/04/29.
  */
 
-public interface Api {
+public interface EmailApi {
     @GET("api")
     Observable<ApiData> apiData();
 
