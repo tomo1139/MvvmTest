@@ -1,7 +1,8 @@
 package develop.beta1139.mvvmtest.api;
 
-import develop.beta1139.mvvmtest.model.ApiData.ApiData;
-import retrofit2.Call;
+import java.util.List;
+
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 
 /**
@@ -10,5 +11,13 @@ import retrofit2.http.GET;
 
 public interface Api {
     @GET("api")
-    Call<ApiData> apiData();
+    Observable<ApiData> apiData();
+
+    public static class ApiData {
+        public List<Result> results;
+    }
+
+    public static class Result {
+        public String email;
+    }
 }

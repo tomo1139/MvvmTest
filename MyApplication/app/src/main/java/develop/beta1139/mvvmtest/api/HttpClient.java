@@ -1,11 +1,8 @@
 package develop.beta1139.mvvmtest.api;
 
-import java.io.IOException;
+import android.util.Log;
 
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
@@ -24,27 +21,14 @@ public class HttpClient {
     }
 
     private static void initHttpClient() {
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-        httpClient.addInterceptor(new Interceptor() {
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
             @Override
-            public Response intercept(Chain chain) throws IOException {
-                Request original = chain.request();
-
-                Request request = original.newBuilder()
-                        .header("Accept", "application/json")
-                        .method(original.method(), original.body())
-                        .build();
-
-                Response response = chain.proceed(request);
-
-                return response;
+            public void log(String message) {
+                Log.d("API LOG", message);
             }
         });
-
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
-        httpClient.addInterceptor(logging);
 
-        mHttpClient = httpClient.build();
+        mHttpClient = new OkHttpClient.Builder().addInterceptor(logging).build();
     }
 }

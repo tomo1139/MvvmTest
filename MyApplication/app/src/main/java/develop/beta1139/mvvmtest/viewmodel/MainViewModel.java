@@ -4,7 +4,9 @@ import android.databinding.ObservableField;
 import android.util.Log;
 import android.view.View;
 
+import develop.beta1139.mvvmtest.api.Api;
 import develop.beta1139.mvvmtest.model.MainModel;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -22,7 +24,8 @@ public class MainViewModel {
     }
 
     public void onClickButton(View view) {
-        mMainModel.fetchApi()
+        Observable<Api.ApiData> observable = mMainModel.mApi.apiData();
+        observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(

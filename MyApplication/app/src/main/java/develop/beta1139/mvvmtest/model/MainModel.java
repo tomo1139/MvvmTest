@@ -1,16 +1,9 @@
 package develop.beta1139.mvvmtest.model;
 
-import android.util.Log;
-
 import develop.beta1139.mvvmtest.api.Api;
 import develop.beta1139.mvvmtest.api.HttpClient;
-import develop.beta1139.mvvmtest.model.ApiData.ApiData;
-import develop.beta1139.mvvmtest.model.ApiData.Result;
-import io.reactivex.Observable;
-import okhttp3.OkHttpClient;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -19,42 +12,19 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainModel {
 
-    public MainModel() {
+    public Api mApi;
 
+    public MainModel() {
+        mApi = initApi();
     }
 
-    public Observable<ApiData> fetchApi() {
-        OkHttpClient httpClient = HttpClient.getHttpClient();
-
+    private Api initApi() {
         Retrofit retrofit = new Retrofit.Builder()
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .baseUrl("http://randomuser.me/")
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(httpClient)
+                .client(HttpClient.getHttpClient())
                 .build();
-
-        return Observable.create(subscriber -> {
-            Api api = retrofit.create(Api.class);
-            api.apiData().enqueue(new Callback<ApiData>() {
-                @Override
-                public void onResponse(Call<ApiData> call, retrofit2.Response<ApiData> response) {
-                    if (response.isSuccessful()) {
-                        ApiData data = response.body();
-                        for (Result result : data.results) {
-                            Log.e("dbg", "onResponse email: " + result.email);
-                        }
-                        subscriber.onNext(data);
-                    } else {
-                        Log.e("dbg", "error_code: " + response.code());
-                    }
-                    subscriber.onComplete();
-                }
-
-                @Override
-                public void onFailure(Call<ApiData> call, Throwable t) {
-                    Log.e("dbg", "error t: " + t.toString());
-                    subscriber.onError(t);
-                }
-            });
-        });
+        return retrofit.create(Api.class);
     }
 }
