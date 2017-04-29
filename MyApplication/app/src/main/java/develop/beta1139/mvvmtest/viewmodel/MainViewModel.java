@@ -8,6 +8,7 @@ import develop.beta1139.mvvmtest.api.EmailApi;
 import develop.beta1139.mvvmtest.eventbus.Publisher;
 import develop.beta1139.mvvmtest.model.MainModel;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.internal.subscriptions.ArrayCompositeSubscription;
@@ -30,7 +31,7 @@ public class MainViewModel {
     }
 
     public void onClickEmailButton(View view) {
-        Observable<EmailApi.ApiData> observable = mMainModel.mEmailApi.apiData();
+        Single<EmailApi.ApiData> observable = mMainModel.mEmailApi.apiData();
         disposables.add(observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
