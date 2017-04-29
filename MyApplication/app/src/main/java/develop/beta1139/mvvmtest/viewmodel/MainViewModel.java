@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 
 import develop.beta1139.mvvmtest.api.EmailApi;
+import develop.beta1139.mvvmtest.eventbus.Publisher;
 import develop.beta1139.mvvmtest.model.MainModel;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -49,5 +50,9 @@ public class MainViewModel {
 
     public void onClickImageButton(View view) {
         imageUrl.set("https://source.unsplash.com/random");
+    }
+
+    public void onClickEventbus(View view) {
+        new Publisher().post("close");
     }
 }
