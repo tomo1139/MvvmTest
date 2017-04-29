@@ -2,8 +2,8 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android" >
     <data>
         <variable
-            name="data"
-            type="develop.beta1139.mvvmtest.Data" />
+            name="mainViewModel"
+            type="develop.beta1139.mvvmtest.viewmodel.MainViewModel" />
     </data>
     <LinearLayout
         android:orientation="vertical"
@@ -11,16 +11,20 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="develop.beta1139.mvvmtest.MainActivity">
+        tools:context="develop.beta1139.mvvmtest.view.MainActivity">
         <TextView
             android:id="@+id/name_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{data.name}"
+            android:text="@{mainViewModel.name}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:text="button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </layout>
 
