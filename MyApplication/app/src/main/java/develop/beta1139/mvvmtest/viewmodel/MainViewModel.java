@@ -8,6 +8,8 @@ import develop.beta1139.mvvmtest.api.EmailApi;
 import develop.beta1139.mvvmtest.model.MainModel;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.internal.subscriptions.ArrayCompositeSubscription;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -19,6 +21,8 @@ public class MainViewModel {
     public ObservableField<String> name = new ObservableField<>("xxx");
     public ObservableField<String> imageUrl = new ObservableField<>("");
 
+    private CompositeDisposable disposables = new CompositeDisposable();
+
     private MainModel mMainModel = new MainModel();
 
     public MainViewModel() {
@@ -26,7 +30,7 @@ public class MainViewModel {
 
     public void onClickEmailButton(View view) {
         Observable<EmailApi.ApiData> observable = mMainModel.mEmailApi.apiData();
-        observable
+        disposables.add(observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -36,7 +40,11 @@ public class MainViewModel {
                         },
                         throwable -> {
                             Log.e("dbg", "throwable: " + throwable);
-                        });
+                        }));
+    }
+
+    public void onPause() {
+        disposables.dispose();
     }
 
     public void onClickImageButton(View view) {

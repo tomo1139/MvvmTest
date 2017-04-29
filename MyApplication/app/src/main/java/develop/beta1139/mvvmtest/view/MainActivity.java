@@ -19,4 +19,10 @@ public class MainActivity extends AppCompatActivity {
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setMainViewModel(mainViewModel);
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mainViewModel.onPause();
+    }
 }
