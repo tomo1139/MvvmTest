@@ -13,11 +13,11 @@ public interface Api {
     @GET("api")
     Observable<ApiData> apiData();
 
-    public static class ApiData {
+    class ApiData {
         public List<Result> results;
     }
 
-    public static class Result {
+    class Result {
         public String email;
     }
 }
